@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -52,6 +51,13 @@ const TicketDetail = ({ ticket, onBack }: TicketDetailProps) => {
 
   const handleStatusChange = () => {
     console.log('Changing status to:', newStatus);
+  };
+
+  const handleStatusValueChange = (value: string) => {
+    const validStatuses = ['new', 'open', 'in_progress', 'resolved', 'closed'] as const;
+    if (validStatuses.includes(value as any)) {
+      setNewStatus(value as typeof validStatuses[number]);
+    }
   };
 
   const getPriorityColor = (priority: string) => {
@@ -119,7 +125,7 @@ const TicketDetail = ({ ticket, onBack }: TicketDetailProps) => {
                 <label className="text-sm font-medium text-gray-500">Status</label>
                 <div className="flex items-center space-x-2 mt-1">
                   {currentUser?.role !== 'customer' ? (
-                    <Select value={newStatus} onValueChange={setNewStatus}>
+                    <Select value={newStatus} onValueChange={handleStatusValueChange}>
                       <SelectTrigger className="bg-white">
                         <SelectValue />
                       </SelectTrigger>
